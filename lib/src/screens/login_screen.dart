@@ -18,6 +18,11 @@ class _LoginScreenState extends State<LoginScreen> {
             gradient:
                 LinearGradient(colors: [Colors.cyan[300], Colors.cyan[800]]),
           ),
+          child: Image.asset(
+            "assets/logo.png",
+            color: Colors.white,
+          ),
+          height: 200,
         ),
       ],
     ));
