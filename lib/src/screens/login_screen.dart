@@ -57,8 +57,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           Text('Iniciar sesión'),
                           if (_loading)
                             Container(
-                                height: 20,
-                                width: 20,
+                                height: 15,
+                                width: 15,
                                 margin: const EdgeInsets.only(left: 24),
                                 child: CircularProgressIndicator())
                         ],
@@ -75,6 +75,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _login(BuildContext context) {
-    _loading = true;
+    if (!_loading) {
+      setState(() {
+        _loading = true;
+      });
+    }
   }
 }
