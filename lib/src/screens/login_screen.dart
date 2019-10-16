@@ -7,6 +7,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool _loading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Center(
           child: Card(
             margin: const EdgeInsets.only(left: 20, right: 20, top: 260),
+            borderOnForeground: true,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 20),
               child: Column(
@@ -35,6 +38,32 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: <Widget>[
                   TextFormField(
                     decoration: InputDecoration(labelText: "Usuario:"),
+                  ),
+                  SizedBox(height: 40),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: "Contraseña:"),
+                    obscureText: true,
+                  ),
+                  Theme(
+                    data: Theme.of(context).copyWith(accentColor: Colors.white),
+                    child: RaisedButton(
+                      textColor: Colors.white,
+                      color: Theme.of(context).primaryColor,
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      onPressed: () => _login(context),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text('Iniciar sesión'),
+                          if (_loading)
+                            Container(
+                                height: 20,
+                                width: 20,
+                                margin: const EdgeInsets.only(left: 24),
+                                child: CircularProgressIndicator())
+                        ],
+                      ),
+                    ),
                   )
                 ],
               ),
@@ -43,5 +72,9 @@ class _LoginScreenState extends State<LoginScreen> {
         )
       ],
     ));
+  }
+
+  void _login(BuildContext context) {
+    _loading = true;
   }
 }
