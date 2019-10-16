@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modulo1_fake_backend/models.dart';
+import 'package:flutter_project/src/connections/server_controller.dart';
+import 'package:flutter_project/src/screens/home_screen.dart';
 import 'package:flutter_project/src/screens/login_screen.dart';
+
+ServerController _serverController = ServerController();
 
 class MyApp extends StatelessWidget {
   @override
@@ -15,9 +20,12 @@ class MyApp extends StatelessWidget {
         return MaterialPageRoute(builder: (BuildContext context) {
           switch (settings.name) {
             case "/":
-              return LoginScreen();
+              return LoginScreen(_serverController, context);
+            case "/home":
+              User logged = settings.arguments;
+              return HomeScreen(logged);
           }
-          return LoginScreen();
+          return LoginScreen(_serverController, context);
         });
       },
     );
