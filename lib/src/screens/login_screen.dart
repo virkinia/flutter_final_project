@@ -27,45 +27,68 @@ class _LoginScreenState extends State<LoginScreen> {
             height: 200,
           ),
         ),
-        Center(
-          child: Card(
-            margin: const EdgeInsets.only(left: 20, right: 20, top: 260),
-            borderOnForeground: true,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 20),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  TextFormField(
-                    decoration: InputDecoration(labelText: "Usuario:"),
-                  ),
-                  SizedBox(height: 40),
-                  TextFormField(
-                    decoration: InputDecoration(labelText: "Contraseña:"),
-                    obscureText: true,
-                  ),
-                  Theme(
-                    data: Theme.of(context).copyWith(accentColor: Colors.white),
-                    child: RaisedButton(
-                      textColor: Colors.white,
-                      color: Theme.of(context).primaryColor,
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      onPressed: () => _login(context),
-                      child: Row(
+        Transform.translate(
+          offset: Offset(0, -20),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Card(
+                elevation: 2,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                margin: const EdgeInsets.only(
+                    left: 20, right: 20, top: 260, bottom: 20),
+                borderOnForeground: true,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 35, vertical: 20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      TextFormField(
+                        decoration: InputDecoration(labelText: "Usuario:"),
+                      ),
+                      SizedBox(height: 20),
+                      TextFormField(
+                        decoration: InputDecoration(labelText: "Contraseña:"),
+                        obscureText: true,
+                      ),
+                      SizedBox(height: 20),
+                      Theme(
+                        data: Theme.of(context)
+                            .copyWith(accentColor: Colors.white),
+                        child: RaisedButton(
+                          textColor: Colors.white,
+                          color: Theme.of(context).primaryColor,
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          onPressed: () => _login(context),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text('Iniciar sesión'),
+                              if (_loading)
+                                Container(
+                                    height: 15,
+                                    width: 15,
+                                    margin: const EdgeInsets.only(left: 24),
+                                    child: CircularProgressIndicator())
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text('Iniciar sesión'),
-                          if (_loading)
-                            Container(
-                                height: 15,
-                                width: 15,
-                                margin: const EdgeInsets.only(left: 24),
-                                child: CircularProgressIndicator())
+                          Text('No estás registrado?'),
+                          FlatButton(
+                              textColor: Theme.of(context).primaryColor,
+                              child: Text('Resgistrese'),
+                              onPressed: () => _goToRegister(context))
                         ],
-                      ),
-                    ),
-                  )
-                ],
+                      )
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
@@ -80,5 +103,9 @@ class _LoginScreenState extends State<LoginScreen> {
         _loading = true;
       });
     }
+  }
+
+  _goToRegister(BuildContext context) {
+    Navigator.of(context).pushNamed('/register');
   }
 }
