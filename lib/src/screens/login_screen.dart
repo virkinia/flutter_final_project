@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   LinearGradient(colors: [Colors.cyan[300], Colors.cyan[800]]),
             ),
             child: Image.asset(
-              "assets/logo.png",
+              "assets/images/logo.png",
               color: Colors.white,
               height: 200,
             ),
@@ -64,6 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (value.isEmpty) {
                               return "Debe rellenar este campo";
                             }
+                            return null;
                           },
                         ),
                         SizedBox(height: 20),
@@ -77,6 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (value.isEmpty) {
                               return "Debe rellenar este campo";
                             }
+                            return null;
                           },
                         ),
                         SizedBox(height: 20),

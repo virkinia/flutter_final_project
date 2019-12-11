@@ -6,10 +6,12 @@ import 'package:flutter_project/src/components/image-picker.dart';
 import 'package:flutter_project/src/connections/server_controller.dart';
 
 class RegisterScreen extends StatefulWidget {
-  final ServerController serverController;
-  final BuildContext context;
+  ServerController serverController;
+  BuildContext context;
+  User userToEdit;
 
-  RegisterScreen(this.serverController, this.context, {Key key})
+  RegisterScreen(this.serverController, this.context,
+      {Key key, this.userToEdit})
       : super(key: key);
 
   _RegisterScreenState createState() => _RegisterScreenState();
@@ -21,6 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool _loading = false;
   bool _showPassword = false;
+  bool _editing = false;
 
   String userName = "";
   String password = "";
@@ -69,6 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         //mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           TextFormField(
+                            initialValue: userName,
                             decoration: InputDecoration(labelText: "Usuario:"),
                             onSaved: (value) {
                               userName = value;
@@ -77,10 +81,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               if (value.isEmpty) {
                                 return "Debe rellenar este campo";
                               }
+                              return null;
                             },
                           ),
                           SizedBox(height: 20),
                           TextFormField(
+                            initialValue: password,
                             decoration: InputDecoration(
                                 labelText: "Contraseña:",
                                 suffixIcon: IconButton(
@@ -101,6 +107,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               if (value.isEmpty) {
                                 return "Debe rellenar este campo";
                               }
+                              return null;
                             },
                           ),
                           SizedBox(height: 20),
@@ -152,7 +159,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Text('Registrar'),
+                                  Text(this._editing
+                                      ? 'Guardar cambios'
+                                      : 'Registrar'),
                                   if (_loading)
                                     Container(
                                         height: 15,
@@ -200,17 +209,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
           password: this.password,
           photo: this.imageFile);
 
-      final state = await widget.serverController.addUser(user);
+      var state;
 
+      if (_editing) {
+        user.id = widget.serverController.loggedUser.id;
+        state = await widget.serverController.updateUser(user);
+      } else {
+        state = await widget.serverController.addUser(user);
+      }
+
+      final action = this._editing ? 'guard' : 'registr';
       if (!state) {
-        showSnackbar(context, "No se ha guardado", Colors.orange);
+        showSnackbar(
+            context, "Ha ocurrido un error al ${action}ar", Colors.orange);
       } else {
         showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text("Información"),
-                content: Text("Su usuario ha sido registrado correctamente"),
+                content: Text("Su usuario ha sido ${action}ado correctamente"),
                 actions: <Widget>[
                   FlatButton(
                     child: Text("Ok"),
@@ -234,5 +252,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
       backgroundColor: backColor,
     ));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    this._editing = (widget.userToEdit != null);
+    if (this._editing) {
+      this.userName = widget.userToEdit.nickname;
+      this.password = widget.userToEdit.password;
+      this.imageFile = widget.userToEdit.photo;
+      this.genero = widget.userToEdit.genrer;
+    }
   }
 }
