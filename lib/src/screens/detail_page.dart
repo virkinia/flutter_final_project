@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modulo1_fake_backend/recipe.dart';
 import 'package:flutter_project/src/components/ingredients_widget.dart';
+import 'package:flutter_project/src/components/preparation_widget.dart';
 import 'package:flutter_project/src/connections/server_controller.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -13,6 +14,7 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
+  bool favorite;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,10 +46,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   ],
                 ),
                 actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.favorite),
-                    onPressed: () {},
-                  ),
+                  getFavoriteWidget(),
                   IconButton(
                     icon: Icon(Icons.edit),
                     onPressed: () {},
@@ -63,11 +62,45 @@ class _DetailsPageState extends State<DetailsPage> {
           body: TabBarView(
             children: <Widget>[
               IngredientsWidget(recipe: widget.recipe),
-              Text("HEY")
+              PreparationWidget(recipe: widget.recipe),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget getFavoriteWidget() {
+    if (favorite != null) {
+      return IconButton(
+        icon: Icon(Icons.favorite, color: favorite ? Colors.red : Colors.white),
+        onPressed: () async {
+          await (!favorite
+              ? widget.serverController.addFavorite(widget.recipe)
+              : widget.serverController.deleteFavorite(widget.recipe));
+          setState(() {
+            favorite = !favorite;
+          });
+        },
+      );
+    }
+
+    return Container(
+        margin: EdgeInsets.all(15),
+        width: 25,
+        child: CircularProgressIndicator());
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    this.loadState();
+  }
+
+  loadState() async {
+    final state = await widget.serverController.getIsFavorite(widget.recipe);
+    setState(() {
+      this.favorite = state;
+    });
   }
 }
