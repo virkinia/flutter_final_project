@@ -53,7 +53,9 @@ class _DetailsPageState extends State<DetailsPage> {
                   ),
                   IconButton(
                     icon: Icon(Icons.help_outline),
-                    onPressed: () {},
+                    onPressed: () {
+                      _showAboutIt(context);
+                    },
                   )
                 ],
               )
@@ -102,5 +104,35 @@ class _DetailsPageState extends State<DetailsPage> {
     setState(() {
       this.favorite = state;
     });
+  }
+
+  void _showAboutIt(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Text("Acerca de la receta"),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(children: <Widget>[
+                    Text("Nombre: ",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(widget.recipe.name)
+                  ]),
+                  Row(children: <Widget>[
+                    Text("Usuario: ",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(widget.recipe.user.nickname)
+                  ]),
+                  Row(children: <Widget>[
+                    Text("Fecha de publicación ",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                        "${widget.recipe.date.day}/${widget.recipe.date.month}/${widget.recipe.date.year}")
+                  ])
+                ],
+              ));
+        });
   }
 }
