@@ -72,4 +72,11 @@ class _MyRecipesPageState extends State<MyRecipesPage> {
       ),
     );
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    debugPrint('HOLA HE LLEGAGO: ');
+  }
 }

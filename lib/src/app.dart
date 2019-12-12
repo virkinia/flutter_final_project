@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modulo1_fake_backend/models.dart';
+import 'package:flutter_modulo1_fake_backend/modulo1_fake_backend.dart';
 import 'package:flutter_project/src/connections/server_controller.dart';
-import 'package:flutter_project/src/screens/home_screen.dart';
+import 'package:flutter_project/src/screens/detail_page.dart';
+import 'package:flutter_project/src/screens/home_page.dart';
+
 import 'package:flutter_project/src/screens/login_screen.dart';
 
 import 'package:flutter_project/src/screens/my_favorite_page.dart';
 import 'package:flutter_project/src/screens/my_recipes_page.dart';
 
 import 'package:flutter_project/src/screens/register_screen.dart';
-
-
 
 ServerController _serverController = ServerController();
 
@@ -35,15 +36,19 @@ class MyApp extends StatelessWidget {
             case "/home":
               User loggedUser = settings.arguments;
               _serverController.loggedUser = loggedUser;
-              return HomeScreen(_serverController);
+              return HomePage(_serverController);
             case "/register":
               User loggedUser = settings.arguments;
               return RegisterScreen(_serverController, context,
                   userToEdit: loggedUser);
-            case "/my_recypes":
+            case "/my_recipes":
               return MyRecipesPage(_serverController);
             case "/my_favorites":
               return MyFavoritesPage(_serverController);
+            case "/details":
+              Recipe recipe = settings.arguments;
+              return DetailsPage(
+                  recipe: recipe, serverController: _serverController);
           }
           return LoginScreen(_serverController, context);
         });
