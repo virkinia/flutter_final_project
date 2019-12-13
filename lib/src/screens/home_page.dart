@@ -51,8 +51,14 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          _addRecipe(context);
+        },
       ),
     );
+  }
+
+  void _addRecipe(BuildContext context) {
+    Navigator.pushNamed(context, "/add_recipe");
   }
 }

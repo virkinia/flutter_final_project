@@ -115,22 +115,30 @@ class _DetailsPageState extends State<DetailsPage> {
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(children: <Widget>[
-                    Text("Nombre: ",
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(widget.recipe.name)
-                  ]),
-                  Row(children: <Widget>[
-                    Text("Usuario: ",
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(widget.recipe.user.nickname)
-                  ]),
-                  Row(children: <Widget>[
-                    Text("Fecha de publicación ",
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(
-                        "${widget.recipe.date.day}/${widget.recipe.date.month}/${widget.recipe.date.year}")
-                  ])
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text("Nombre: ",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text(widget.recipe.name)
+                      ]),
+                  Divider(),
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text("Usuario: ",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text(widget.recipe.user.nickname)
+                      ]),
+                  Divider(),
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text("Fecha de publicación ",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text(
+                            "${widget.recipe.date.day}/${widget.recipe.date.month}/${widget.recipe.date.year}")
+                      ])
                 ],
               ));
         });

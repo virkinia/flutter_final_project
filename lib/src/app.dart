@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modulo1_fake_backend/models.dart';
-import 'package:flutter_modulo1_fake_backend/modulo1_fake_backend.dart';
 import 'package:flutter_project/src/connections/server_controller.dart';
+import 'package:flutter_project/src/screens/add_recipe.dart';
 import 'package:flutter_project/src/screens/detail_page.dart';
 import 'package:flutter_project/src/screens/home_page.dart';
 
@@ -49,6 +49,8 @@ class MyApp extends StatelessWidget {
               Recipe recipe = settings.arguments;
               return DetailsPage(
                   recipe: recipe, serverController: _serverController);
+            case "/add_recipe":
+              return AddRecipePage(_serverController);
           }
           return LoginScreen(_serverController, context);
         });
